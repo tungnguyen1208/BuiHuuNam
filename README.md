@@ -1,312 +1,213 @@
-# Blog Website - 12 Design Patterns Implementation in Java
+# Hệ Thống Blog – Minh họa 12 Mẫu Thiết Kế (Design Patterns) bằng Java
 
-This project demonstrates the implementation of 12 Design Patterns for a blog website application, organized into three categories: Creational, Structural, and Behavioral patterns.
+> Toàn bộ tài liệu đã được chuyển sang tiếng Việt. Dự án minh họa cách áp dụng 12 mẫu thiết kế kinh điển (GoF) trong ngữ cảnh xây dựng hệ thống blog: tạo bài viết, hiển thị, tương tác người dùng, quản lý bình luận, thông báo.
 
-## 📋 Project Overview
+## 📋 Tổng quan
 
-This repository contains a complete implementation of 12 design patterns applied to a blog website context. Each pattern is implemented with practical examples relevant to blog management functionality.
+Mục tiêu của dự án:
+- Cung cấp ví dụ rõ ràng, dễ đọc cho từng mẫu thiết kế.
+- Cho thấy cách các mẫu kết hợp với nhau tạo thành một kiến trúc linh hoạt.
+- Làm nền tảng học tập và tham khảo khi thiết kế hệ thống thực tế.
 
-## 🏗️ Design Patterns Implemented
+Các tài liệu liên quan:
+- `PATTERNS_SUMMARY.md` – Tóm tắt ngắn gọn từng mẫu.
+- `PATTERNS_DIAGRAM.md` – Sơ đồ và mối quan hệ giữa các mẫu.
+- `DESIGN_PATTERNS_PROBLEMS.md` – Mô tả ngắn gọn bài toán mỗi mẫu.
+- `BAI_TOAN_CHI_TIET.md` – Phân tích chi tiết bài toán & giải pháp (mới).
 
-### Creational Patterns (5)
+## 🏗️ Danh sách 12 Mẫu Thiết Kế
 
-1. **Singleton Pattern** - `BlogConfiguration`
-   - Ensures only one instance of blog configuration exists
-   - Manages global settings like blog name, posts per page, theme, etc.
+### Nhóm Khởi Tạo (Creational) – 5 mẫu
+1. **Singleton** – `BlogConfiguration`: Một cấu hình dùng chung duy nhất.
+2. **Factory Method** – `BlogPostFactory` (+ các factory triển khai): Tạo các loại bài viết chuyên biệt.
+3. **Abstract Factory** – `UIComponentFactory`: Tạo “họ” các thành phần UI thống nhất theo chủ đề (dark/light).
+4. **Builder** – `BlogPostBuilder`: Xây dựng bài viết phức tạp theo từng bước linh hoạt.
+5. **Prototype** – `BlogPostPrototype`: Nhân bản bài viết từ các mẫu chuẩn.
 
-2. **Factory Method Pattern** - `BlogPostFactory`
-   - Creates different types of blog posts (Technical, Tutorial, News)
-   - Each factory type adds appropriate tags and formatting
+### Nhóm Cấu Trúc (Structural) – 6 mẫu
+6. **Adapter** – `LegacyBlogAdapter`: Tích hợp hệ thống blog cũ khác giao diện.
+7. **Bridge** – `BlogRenderer`: Tách trừu tượng hiển thị khỏi nền tảng (HTML/Markdown/Text).
+8. **Composite** – `CommentComponent`: Mô hình hóa cây bình luận lồng nhau.
+9. **Decorator** – `BlogPostDecorator`: Thêm tính năng động quanh nội dung (SEO, chia sẻ, quảng cáo...).
+10. **Facade** – `BlogManagementFacade`: Cửa giao tiếp đơn giản với nhiều phân hệ phức tạp.
+11. **Proxy** – `BlogPostProxy`: Kiểm soát truy cập (cache, phân quyền, logging) tới bài viết.
 
-3. **Abstract Factory Pattern** - `UIComponentFactory`
-   - Creates families of related UI components (Dark Theme, Light Theme)
-   - Generates buttons, text fields, and panels with consistent theming
+### Nhóm Hành Vi (Behavioral) – 1 mẫu
+12. **Observer** – `BlogSubscriber` / `BlogSubscriberFacade`: Cơ chế đăng ký nhận thông báo khi có bài mới.
 
-4. **Builder Pattern** - `BlogPostBuilder`
-   - Constructs complex BlogPost objects step by step
-   - Allows flexible creation of posts with optional attributes
-
-5. **Prototype Pattern** - `BlogPostPrototype`
-   - Creates new blog posts by cloning existing templates
-   - Provides templates for standard, technical, and tutorial posts
-
-### Structural Patterns (6)
-
-6. **Adapter Pattern** - `LegacyBlogAdapter`
-   - Adapts legacy blog system to work with modern interface
-   - Converts between different data formats and method signatures
-
-7. **Bridge Pattern** - `BlogRenderer`
-   - Separates blog rendering abstraction from platform implementation
-   - Supports HTML, Markdown, and Plain Text rendering
-
-8. **Composite Pattern** - `CommentComponent`
-   - Treats individual comments and comment threads uniformly
-   - Creates tree structures for nested comments and replies
-
-9. **Decorator Pattern** - `BlogPostDecorator`
-   - Adds features dynamically: SEO metadata, social sharing, reading time, ads
-   - Decorators can be combined for multiple enhancements
-
-10. **Facade Pattern** - `BlogManagementFacade`
-    - Simplifies complex blog operations (publish, comment, search)
-    - Coordinates multiple subsystems (posts, users, notifications, search)
-
-11. **Proxy Pattern** - `BlogPostProxy`
-    - Controls access to blog posts with caching and security
-    - Implements caching, access control, and logging proxies
-
-### Behavioral Patterns (1)
-
-12. **Observer Pattern** - `BlogSubscriber`
-    - Notifies subscribers when new posts are published
-    - Supports multiple notification channels: Email, SMS, Push, RSS
-
-## 📁 Project Structure
+## 📁 Cấu trúc thư mục
 
 ```
 src/main/java/com/blog/
 ├── model/
-│   ├── BlogPost.java           # Main blog post model
-│   ├── Comment.java             # Comment model
-│   └── User.java                # User model
+│   ├── BlogPost.java          # Mô hình bài viết
+│   ├── Comment.java           # Mô hình bình luận
+│   └── User.java              # Mô hình người dùng
 ├── designpatterns/
 │   ├── creational/
 │   │   ├── BlogConfiguration.java          # Singleton
-│   │   ├── BlogPostFactory.java            # Factory Method
-│   │   ├── BlogPostFactoryProvider.java    # Factory helper
+│   │   ├── BlogPostFactory.java            # Factory Method (abstract)
+│   │   ├── BlogPostFactoryProvider.java    # Các factory cụ thể
 │   │   ├── UIComponentFactory.java         # Abstract Factory
-│   │   ├── UIComponentFactoryProvider.java # Factory helper
+│   │   ├── UIComponentFactoryProvider.java # Helper
 │   │   ├── BlogPostBuilder.java            # Builder
 │   │   └── BlogPostPrototype.java          # Prototype
 │   ├── structural/
 │   │   ├── LegacyBlogAdapter.java          # Adapter
-│   │   ├── LegacyBlogAdapterFactory.java   # Adapter helper
+│   │   ├── LegacyBlogAdapterFactory.java   # Helper Adapter
 │   │   ├── BlogRenderer.java               # Bridge
-│   │   ├── BlogRendererFactory.java        # Bridge helper
+│   │   ├── BlogRendererFactory.java        # Helper Bridge
 │   │   ├── CommentComponent.java           # Composite
-│   │   ├── CommentFactory.java             # Composite helper
-│   │   ├── BlogPostDecorator.java          # Decorator
-│   │   ├── BlogPostDecoratorFactory.java   # Decorator helper
+│   │   ├── CommentFactory.java             # (nếu mở rộng) tạo comment
+│   │   ├── BlogPostDecorator.java          # Decorator + triển khai
+│   │   ├── BlogPostDecoratorFactory.java   # Helper Decorator
 │   │   ├── BlogManagementFacade.java       # Facade
-│   │   ├── BlogPostProxy.java              # Proxy
-│   │   └── BlogPostProxyFactory.java       # Proxy helper
+│   │   ├── BlogPostProxy.java              # Proxy + triển khai
+│   │   └── BlogPostProxyFactory.java       # Helper Proxy
 │   └── behavioral/
-│       ├── BlogSubscriber.java             # Observer
-│       └── BlogSubscriberFacade.java       # Observer helper
-└── BlogDesignPatternsDemo.java             # Demo application
-
+│       ├── BlogSubscriber.java             # Observer (Subject + Observers)
+│       └── BlogSubscriberFacade.java       # Helper đăng ký thuận tiện
+└── BlogDesignPatternsDemo.java             # Lớp demo chạy thử
 ```
 
-## 🚀 How to Compile and Run
+## 🚀 Hướng dẫn biên dịch & chạy
 
-### Prerequisites
-- Java Development Kit (JDK) 11 or higher
+### Yêu cầu
+- JDK 11 trở lên.
 
-### Compilation
-
-```bash
-# Create bin directory
+### Biên dịch (Windows CMD)
+```cmd
 mkdir bin
-
-# Compile all Java files
-javac -d bin src/main/java/com/blog/model/*.java \
-             src/main/java/com/blog/designpatterns/creational/*.java \
-             src/main/java/com/blog/designpatterns/structural/*.java \
-             src/main/java/com/blog/designpatterns/behavioral/*.java \
-             src/main/java/com/blog/*.java
+javac -d bin src\main\java\com\blog\model\*.java ^
+  src\main\java\com\blog\designpatterns\creational\*.java ^
+  src\main\java\com\blog\designpatterns\structural\*.java ^
+  src\main\java\com\blog\designpatterns\behavioral\*.java ^
+  src\main\java\com\blog\*.java
 ```
 
-### Running the Demo
-
-```bash
-# Run the demo application
+### Chạy demo
+```cmd
 java -cp bin com.blog.BlogDesignPatternsDemo
 ```
 
-## 📖 Design Pattern Details
+## 🔍 Ví dụ ngắn cho từng mẫu
 
-### 1. Singleton Pattern - BlogConfiguration
-**Purpose:** Ensure only one instance of configuration exists throughout the application.
-
-**Usage Example:**
+**Singleton**
 ```java
-BlogConfiguration config = BlogConfiguration.getInstance();
-String blogName = config.getBlogName();
-int postsPerPage = config.getPostsPerPage();
+BlogConfiguration cfg = BlogConfiguration.getInstance();
+System.out.println(cfg.getBlogName());
 ```
 
-### 2. Factory Method Pattern - BlogPostFactory
-**Purpose:** Create different types of blog posts without specifying their exact classes.
-
-**Usage Example:**
+**Factory Method**
 ```java
 BlogPostFactory factory = BlogPostFactoryProvider.getTechnicalFactory();
-BlogPost post = factory.createAndPublish("Title", "Content", "Author");
+BlogPost post = factory.createAndPublish("Giới thiệu Java", "Nội dung...", "Nam");
 ```
 
-### 3. Abstract Factory Pattern - UIComponentFactory
-**Purpose:** Create families of related UI components (themes) without specifying concrete classes.
-
-**Usage Example:**
+**Abstract Factory**
 ```java
-UIComponentFactory darkFactory = UIComponentFactoryProvider.getDarkThemeFactory();
-// Creates dark-themed buttons, text fields, and panels
+UIComponentFactory dark = UIComponentFactoryProvider.getDarkThemeFactory();
+dark.createButton().render();
 ```
 
-### 4. Builder Pattern - BlogPostBuilder
-**Purpose:** Construct complex blog post objects step by step.
-
-**Usage Example:**
+**Builder**
 ```java
 BlogPost post = BlogPostBuilder.builder()
-    .withTitle("My Post")
-    .withContent("Content here...")
-    .withAuthor("John Doe")
-    .addTag("Java")
-    .addTag("Design Patterns")
+    .withTitle("Thiết kế sạch")
+    .withContent("Nguyên tắc SOLID...")
+    .withAuthor("Hữu Nam")
+    .addTag("SOLID")
+    .addTag("Design")
     .build();
 ```
 
-### 5. Prototype Pattern - BlogPostPrototype
-**Purpose:** Create new objects by cloning existing prototypes.
-
-**Usage Example:**
+**Prototype**
 ```java
-BlogPostPrototype prototype = new BlogPostPrototype();
-BlogPost technicalPost = prototype.createPost("technical");
-technicalPost.setAuthor("Alice");
+BlogPostPrototype proto = new BlogPostPrototype();
+BlogPost tut = proto.createPost("tutorial");
+tut.setAuthor("Tác giả A");
 ```
 
-### 6. Adapter Pattern - LegacyBlogAdapter
-**Purpose:** Allow legacy blog system to work with modern interfaces.
-
-**Usage Example:**
+**Adapter**
 ```java
 LegacyBlogAdapter adapter = LegacyBlogAdapterFactory.createAdapter();
-adapter.savePost(modernBlogPost);
+adapter.savePost(post);
 ```
 
-### 7. Bridge Pattern - BlogRenderer
-**Purpose:** Separate rendering abstraction from platform implementation.
-
-**Usage Example:**
+**Bridge**
 ```java
-BlogRenderer renderer = BlogRendererFactory.createDetailedHTMLRenderer();
-renderer.render(blogPost);
+BlogRenderer renderer = BlogRendererFactory.createDetailedMarkdownRenderer();
+renderer.render(post);
 ```
 
-### 8. Composite Pattern - CommentComponent
-**Purpose:** Treat individual comments and comment trees uniformly.
-
-**Usage Example:**
+**Composite**
 ```java
-CommentComponent thread = CommentFactory.createCommentThread("1", "Alice", "Great!");
-thread.add(CommentFactory.createSingleComment("2", "Bob", "Thanks!"));
-thread.display(0);
+CommentComponent root = new CommentThread("1", "Alice", "Bài viết hay!");
+root.add(new SingleComment("2", "Bob", "Đồng ý!"));
+root.display(0);
 ```
 
-### 9. Decorator Pattern - BlogPostDecorator
-**Purpose:** Add features to blog posts dynamically without modifying their structure.
-
-**Usage Example:**
+**Decorator**
 ```java
-BlogPostDecorator decorated = BlogPostDecoratorFactory.withSEO(post, 
-    "Description", "keywords");
-decorated = BlogPostDecoratorFactory.withSocialMedia(post);
+BlogPostDecorator seo = BlogPostDecoratorFactory.withSEO(post, "Mô tả", "java,design");
+BlogPostDecorator share = BlogPostDecoratorFactory.withSocialMedia(post);
 ```
 
-### 10. Facade Pattern - BlogManagementFacade
-**Purpose:** Provide a simplified interface to complex blog subsystems.
-
-**Usage Example:**
+**Facade**
 ```java
 BlogManagementFacade facade = new BlogManagementFacade();
-facade.publishBlogPost(post, author);
-facade.addComment("postId", comment, user);
+facade.publishBlogPost(post, new User());
 ```
 
-### 11. Proxy Pattern - BlogPostProxy
-**Purpose:** Control access to blog posts with caching, security, and logging.
-
-**Usage Example:**
+**Proxy**
 ```java
 BlogPostProxyFactory.demonstrateCachingProxy("123");
-BlogPostProxyFactory.demonstrateProtectedProxy(user, post);
 ```
 
-### 12. Observer Pattern - BlogSubscriber
-**Purpose:** Notify multiple subscribers when new blog posts are published.
-
-**Usage Example:**
+**Observer**
 ```java
-BlogSubscriberFacade facade = new BlogSubscriberFacade();
-facade.subscribeEmail("Alice", "alice@example.com");
-facade.subscribeSMS("Bob", "+1234567890");
-facade.publishPost(newPost); // All subscribers are notified
+BlogSubscriberFacade subs = new BlogSubscriberFacade();
+subs.subscribeEmail("Nam", "nam@example.com");
+subs.publishPost(post);
 ```
 
-## 🎯 Key Features
+## 🎯 Điểm nổi bật
+- Minh họa đầy đủ 12 mẫu kinh điển.
+- Ngữ cảnh thực tế: hệ thống blog.
+- Mã rõ ràng, dễ đọc, tách lớp hợp lý.
+- Dễ mở rộng để bổ sung persistence, validation, bảo mật.
 
-- **Comprehensive Implementation**: All 12 patterns are fully functional
-- **Blog Context**: Each pattern is applied to real blog website scenarios
-- **Clean Architecture**: Well-organized package structure
-- **Practical Examples**: Demo application showcases each pattern in action
-- **Production-Ready**: Patterns follow best practices and SOLID principles
-
-## 🧪 Testing
-
-Run the demo application to see all patterns in action:
-
-```bash
+## 🧪 Kiểm thử nhanh
+Chạy lớp `BlogDesignPatternsDemo` để xem chuỗi minh họa tổng hợp:
+```cmd
 java -cp bin com.blog.BlogDesignPatternsDemo
 ```
 
-The demo will demonstrate:
-- Configuration management (Singleton)
-- Post creation with factories (Factory Method, Abstract Factory)
-- Flexible post building (Builder)
-- Template cloning (Prototype)
-- Legacy system integration (Adapter)
-- Multi-platform rendering (Bridge)
-- Nested comment trees (Composite)
-- Dynamic feature addition (Decorator)
-- Simplified operations (Facade)
-- Access control and caching (Proxy)
-- Subscriber notifications (Observer)
+## 📚 Học được gì?
+1. Nhận biết bài toán phù hợp cho từng mẫu.
+2. Cách ghép nhiều mẫu để tránh trùng lặp logic.
+3. Thiết kế linh hoạt: thay đổi phần hiển thị không ảnh hưởng phần tạo dữ liệu.
+4. Phân tách trách nhiệm và giảm phụ thuộc.
 
-## 📚 Learning Outcomes
+## 🤝 Đóng góp
+Bạn có thể fork, thêm ví dụ, bổ sung unit test, mở rộng thêm mẫu khác (Strategy, Command, State...).
 
-By studying this project, you will learn:
-1. How to apply design patterns to real-world applications
-2. When to use each pattern
-3. How patterns work together in a cohesive system
-4. Best practices for implementing patterns in Java
-5. How to structure a maintainable codebase with patterns
+## 📝 Giấy phép
+Dự án phục vụ mục đích học tập – bạn có thể sử dụng và chỉnh sửa tự do.
 
-## 🤝 Contributing
+## 👨‍💻 Tác giả
+Thực hiện nhằm minh họa rõ ràng các Design Patterns trong Java cho hệ thống blog.
 
-This is an educational project demonstrating design patterns. Feel free to:
-- Fork the repository
-- Add more patterns
-- Improve existing implementations
-- Add unit tests
-- Enhance documentation
+## 🔗 Tài liệu tham khảo
+- *Design Patterns* (Gang of Four)
+- Refactoring Guru – https://refactoring.guru/design-patterns
+- Java Design Patterns – https://java-design-patterns.com/
 
-## 📝 License
-
-This project is for educational purposes. Feel free to use and modify as needed.
-
-## 👨‍💻 Author
-
-Created as a demonstration of design patterns in Java for blog website applications.
-
-## 🔗 Resources
-
-- [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns) by Gang of Four
-- [Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)
-- [Java Design Patterns](https://java-design-patterns.com/)
+## 🔁 Liên kết chéo
+- `DESIGN_PATTERNS_PROBLEMS.md`
+- `PATTERNS_SUMMARY.md`
+- `PATTERNS_DIAGRAM.md`
+- `BAI_TOAN_CHI_TIET.md`
 
 ---
-
-**Note:** This implementation focuses on demonstrating the patterns clearly. In a production environment, you would add error handling, validation, persistence, and comprehensive testing.
+*Ghi chú:* Mã ví dụ tập trung vào minh họa mẫu – môi trường sản xuất cần thêm xử lý lỗi, tối ưu hiệu năng, bảo mật và lưu trữ dữ liệu.
