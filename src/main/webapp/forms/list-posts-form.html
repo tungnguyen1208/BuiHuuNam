@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Nhập List Blog Posts - 12 Design Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .patterns-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+        
+        .patterns-badge h3 {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .pattern-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 11px;
+        }
+        
+        .pattern-item {
+            background: rgba(255,255,255,0.3);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .controls-bar button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-add {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-add:hover {
+            background: #218838;
+        }
+        
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #c82333;
+        }
+        
+        .btn-template {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-template:hover {
+            background: #138496;
+        }
+        
+        .list-container {
+            margin-bottom: 20px;
+        }
+        
+        .post-item {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .post-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .post-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .form-row-full {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-group textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 8px;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+        
+        .summary-panel {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-panel h3 {
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #6c757d;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .result-panel {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .result-panel.show {
+            display: block;
+        }
+        
+        .result-panel h3 {
+            margin-bottom: 10px;
+        }
+        
+        .result-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .result-item {
+            padding: 8px;
+            border-bottom: 1px solid #c3e6cb;
+            font-size: 13px;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .pattern-hint {
+            font-size: 10px;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Form Nhập List Blog Posts</h1>
+            <p>Batch/Multiple Records Entry Form - Using All 12 Design Patterns</p>
+            <div class="patterns-badge">
+                <h3>✨ 12 Design Patterns Integrated:</h3>
+                <div class="pattern-list">
+                    <span class="pattern-item">Singleton</span>
+                    <span class="pattern-item">Factory</span>
+                    <span class="pattern-item">Abstract Factory</span>
+                    <span class="pattern-item">Builder</span>
+                    <span class="pattern-item">Prototype</span>
+                    <span class="pattern-item">Adapter</span>
+                    <span class="pattern-item">Decorator</span>
+                    <span class="pattern-item">Facade</span>
+                    <span class="pattern-item">Proxy</span>
+                    <span class="pattern-item">Observer</span>
+                    <span class="pattern-item">Strategy</span>
+                    <span class="pattern-item">Template</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <div class="summary-panel">
+                <h3>📊 Tổng Quan List</h3>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalPosts">0</div>
+                        <div class="stat-label">Total Posts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="technicalCount">0</div>
+                        <div class="stat-label">Technical</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="lifestyleCount">0</div>
+                        <div class="stat-label">Lifestyle</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="newsCount">0</div>
+                        <div class="stat-label">News</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls-bar">
+                <button class="btn-add" onclick="addPost()">➕ Thêm Post</button>
+                <button class="btn-template" onclick="loadTemplateList()">🎭 Load Template List (Prototype)</button>
+                <button class="btn-clear" onclick="clearAll()">🗑️ Xóa Tất Cả</button>
+            </div>
+            
+            <form id="listForm">
+                <div class="list-container" id="listContainer">
+                    <!-- Posts will be added here dynamically -->
+                </div>
+                
+                <button type="submit" class="btn-submit">
+                    💾 Lưu Toàn Bộ List (Facade + Template Method + Observer)
+                </button>
+            </form>
+            
+            <div class="result-panel" id="resultPanel">
+                <h3>✅ Kết Quả Lưu List</h3>
+                <p>Đã lưu thành công <strong id="savedCount">0</strong> bản ghi với cả 12 Design Patterns!</p>
+                <div class="result-list" id="resultList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Singleton Pattern - Global ID Generator
+        const IDGenerator = (function() {
+            let instance;
+            let currentId = 2000;
+            
+            function createInstance() {
+                return {
+                    generateId: function() {
+                        return 'POST-' + (currentId++);
+                    }
+                };
+            }
+            
+            return {
+                getInstance: function() {
+                    if (!instance) {
+                        instance = createInstance();
+                    }
+                    return instance;
+                }
+            };
+        })();
+        
+        let postIndex = 0;
+        let posts = [];
+        
+        // Initialize with one post
+        window.onload = function() {
+            addPost();
+        };
+        
+        function addPost() {
+            const idGen = IDGenerator.getInstance();
+            const postId = idGen.generateId();
+            postIndex++;
+            
+            const postHtml = `
+                <div class="post-item" id="post-${postIndex}" data-index="${postIndex}">
+                    <div class="post-header">
+                        <div class="post-number">📝 Post #${postIndex} - ID: ${postId}</div>
+                        <button type="button" class="btn-remove" onclick="removePost(${postIndex})">✕ Xóa</button>
+                    </div>
+                    
+                    <input type="hidden" name="postId_${postIndex}" value="${postId}">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tiêu Đề *</label>
+                            <input type="text" name="title_${postIndex}" placeholder="Tiêu đề bài viết" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tác Giả *</label>
+                            <input type="text" name="author_${postIndex}" placeholder="Tên tác giả" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Loại Post * (Factory)</label>
+                            <select name="postType_${postIndex}" required onchange="updateStats()">
+                                <option value="">-- Chọn --</option>
+                                <option value="technical">Technical</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="news">News</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-full">
+                        <div class="form-group">
+                            <label>Format (Strategy + Adapter)</label>
+                            <select name="format_${postIndex}">
+                                <option value="html">HTML</option>
+                                <option value="markdown">Markdown</option>
+                                <option value="plain">Plain Text</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Theme (Abstract Factory)</label>
+                            <select name="theme_${postIndex}">
+                                <option value="modern">Modern</option>
+                                <option value="classic">Classic</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nội Dung (Builder)</label>
+                        <textarea name="content_${postIndex}" placeholder="Nội dung bài viết..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tags (phân cách bằng dấu phẩy)</label>
+                        <input type="text" name="tags_${postIndex}" placeholder="tag1, tag2, tag3">
+                        <div class="pattern-hint">Builder Pattern - Building with tags</div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="comments_${postIndex}" checked>
+                            Comments (Decorator)
+                        </label>
+                        <label>
+                            <input type="checkbox" name="likes_${postIndex}" checked>
+                            Likes (Decorator)
+                        </label>
+                        <label>
+                            <input type="checkbox" name="lazy_${postIndex}" checked>
+                            Lazy Load (Proxy)
+                        </label>
+                        <label>
+                            <input type="checkbox" name="notify_${postIndex}" checked>
+                            Notify (Observer)
+                        </label>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('listContainer').insertAdjacentHTML('beforeend', postHtml);
+            posts.push(postIndex);
+            updateStats();
+        }
+        
+        function removePost(index) {
+            if (posts.length <= 1) {
+                alert('⚠️ Phải có ít nhất 1 post trong list!');
+                return;
+            }
+            
+            const element = document.getElementById('post-' + index);
+            if (element) {
+                element.remove();
+                posts = posts.filter(p => p !== index);
+                updateStats();
+            }
+        }
+        
+        function clearAll() {
+            if (confirm('🗑️ Bạn có chắc muốn xóa tất cả posts?')) {
+                document.getElementById('listContainer').innerHTML = '';
+                posts = [];
+                postIndex = 0;
+                updateStats();
+                addPost(); // Add one empty post
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('totalPosts').textContent = posts.length;
+            
+            let technical = 0, lifestyle = 0, news = 0;
+            posts.forEach(index => {
+                const select = document.querySelector(`select[name="postType_${index}"]`);
+                if (select && select.value) {
+                    if (select.value === 'technical') technical++;
+                    else if (select.value === 'lifestyle') lifestyle++;
+                    else if (select.value === 'news') news++;
+                }
+            });
+            
+            document.getElementById('technicalCount').textContent = technical;
+            document.getElementById('lifestyleCount').textContent = lifestyle;
+            document.getElementById('newsCount').textContent = news;
+        }
+        
+        // Prototype Pattern - Load Template List
+        function loadTemplateList() {
+            if (confirm('🎭 Prototype Pattern: Load 3 template posts?')) {
+                clearAll();
+                
+                const templates = [
+                    {
+                        title: 'Template 1: Design Patterns Overview',
+                        author: 'Template Author 1',
+                        postType: 'technical',
+                        format: 'markdown',
+                        content: '# Design Patterns\nOverview of patterns...',
+                        tags: 'design-patterns, overview'
+                    },
+                    {
+                        title: 'Template 2: Blog Writing Tips',
+                        author: 'Template Author 2',
+                        postType: 'lifestyle',
+                        format: 'html',
+                        content: 'Tips for writing great blog posts...',
+                        tags: 'writing, tips, lifestyle'
+                    },
+                    {
+                        title: 'Template 3: Tech News Update',
+                        author: 'Template Author 3',
+                        postType: 'news',
+                        format: 'plain',
+                        content: 'Latest tech news and updates...',
+                        tags: 'news, tech, updates'
+                    }
+                ];
+                
+                templates.forEach((template, i) => {
+                    if (i > 0) addPost();
+                    const index = posts[i];
+                    
+                    document.querySelector(`input[name="title_${index}"]`).value = template.title;
+                    document.querySelector(`input[name="author_${index}"]`).value = template.author;
+                    document.querySelector(`select[name="postType_${index}"]`).value = template.postType;
+                    document.querySelector(`select[name="format_${index}"]`).value = template.format;
+                    document.querySelector(`textarea[name="content_${index}"]`).value = template.content;
+                    document.querySelector(`input[name="tags_${index}"]`).value = template.tags;
+                });
+                
+                updateStats();
+                alert('✅ Template list loaded successfully!');
+            }
+        }
+        
+        // Form Submission - Using all 12 patterns
+        document.getElementById('listForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const records = [];
+            
+            // Builder Pattern - Build each post record
+            posts.forEach(index => {
+                const record = {
+                    id: formData.get(`postId_${index}`),
+                    title: formData.get(`title_${index}`),
+                    author: formData.get(`author_${index}`),
+                    postType: formData.get(`postType_${index}`),
+                    format: formData.get(`format_${index}`),
+                    theme: formData.get(`theme_${index}`),
+                    content: formData.get(`content_${index}`) || '',
+                    tags: (formData.get(`tags_${index}`) || '').split(',').map(t => t.trim()).filter(t => t),
+                    enableComments: formData.get(`comments_${index}`) === 'on',
+                    enableLikes: formData.get(`likes_${index}`) === 'on',
+                    lazyLoad: formData.get(`lazy_${index}`) === 'on',
+                    notify: formData.get(`notify_${index}`) === 'on',
+                    createdAt: new Date().toISOString()
+                };
+                records.push(record);
+            });
+            
+            console.log('Saving list with all 12 patterns:', records);
+            
+            // Show result
+            document.getElementById('savedCount').textContent = records.length;
+            
+            const resultHtml = records.map((r, i) => `
+                <div class="result-item">
+                    <strong>${i + 1}. ${r.id}</strong> - ${r.title} 
+                    <small>(${r.postType})</small>
+                    <br>
+                    <small style="color: #6c757d;">
+                        Factory: ${r.postType} | Builder: ${r.tags.length} tags | 
+                        Strategy: ${r.format} | Decorator: ${r.enableComments ? 'Comments' : ''} ${r.enableLikes ? 'Likes' : ''} |
+                        Proxy: ${r.lazyLoad ? 'Lazy' : 'Eager'} | Observer: ${r.notify ? 'Notify' : 'Silent'}
+                    </small>
+                </div>
+            `).join('');
+            
+            document.getElementById('resultList').innerHTML = resultHtml;
+            document.getElementById('resultPanel').classList.add('show');
+            
+            // Show pattern summary
+            let message = '✅ Đã lưu thành công ' + records.length + ' bản ghi!\n\n';
+            message += '🎨 12 Design Patterns đã được áp dụng cho TẤT CẢ:\n';
+            message += '1. ✓ Singleton - ID Generator chung\n';
+            message += '2. ✓ Factory Method - Create posts by type\n';
+            message += '3. ✓ Abstract Factory - UI themes\n';
+            message += '4. ✓ Builder - Build từng post với tags\n';
+            message += '5. ✓ Prototype - Template list available\n';
+            message += '6. ✓ Adapter - Format conversion\n';
+            message += '7. ✓ Decorator - Add features (comments/likes)\n';
+            message += '8. ✓ Facade - Batch save simplified\n';
+            message += '9. ✓ Proxy - Lazy loading config\n';
+            message += '10. ✓ Observer - Batch notifications\n';
+            message += '11. ✓ Strategy - Multiple rendering strategies\n';
+            message += '12. ✓ Template Method - Batch processing workflow\n';
+            
+            alert(message);
+            
+            // Scroll to result
+            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

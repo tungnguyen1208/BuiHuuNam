@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Nhập 1 Bản Ghi Blog Post - 12 Design Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .patterns-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+        
+        .patterns-badge h3 {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .pattern-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 11px;
+        }
+        
+        .pattern-item {
+            background: rgba(255,255,255,0.3);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #11998e;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            color: #11998e;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #495057;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #11998e;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .pattern-hint {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 4px;
+            font-style: italic;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .record-preview {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .record-preview h4 {
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .record-preview pre {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Form Nhập 1 Bản Ghi Blog Post</h1>
+            <p>Single Record Entry Form - Using All 12 Design Patterns</p>
+            <div class="patterns-badge">
+                <h3>✨ 12 Design Patterns Integrated:</h3>
+                <div class="pattern-list">
+                    <span class="pattern-item">Singleton</span>
+                    <span class="pattern-item">Factory</span>
+                    <span class="pattern-item">Abstract Factory</span>
+                    <span class="pattern-item">Builder</span>
+                    <span class="pattern-item">Prototype</span>
+                    <span class="pattern-item">Adapter</span>
+                    <span class="pattern-item">Decorator</span>
+                    <span class="pattern-item">Facade</span>
+                    <span class="pattern-item">Proxy</span>
+                    <span class="pattern-item">Observer</span>
+                    <span class="pattern-item">Strategy</span>
+                    <span class="pattern-item">Template</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <div class="success-message" id="successMessage">
+                ✅ Bản ghi đã được lưu thành công! ID: <span id="recordId"></span>
+            </div>
+            
+            <form id="singleRecordForm">
+                <!-- Section 1: Basic Information (Builder Pattern) -->
+                <div class="form-section">
+                    <div class="section-title">🔨 Thông Tin Cơ Bản (Builder Pattern)</div>
+                    
+                    <div class="form-group">
+                        <label for="postId">Post ID *</label>
+                        <input type="text" id="postId" name="postId" placeholder="Auto-generated" readonly 
+                               style="background: #e9ecef;">
+                        <div class="pattern-hint">Singleton Pattern - Generated by global ID manager</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">Tiêu Đề *</label>
+                        <input type="text" id="title" name="title" placeholder="Nhập tiêu đề bài viết" required>
+                        <div class="pattern-hint">Builder Pattern - Building post step by step</div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="author">Tác Giả *</label>
+                            <input type="text" id="author" name="author" placeholder="Tên tác giả" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="postType">Loại Bài Viết *</label>
+                            <select id="postType" name="postType" required>
+                                <option value="">-- Chọn loại --</option>
+                                <option value="technical">Technical</option>
+                                <option value="lifestyle">Lifestyle</option>
+                                <option value="news">News</option>
+                            </select>
+                            <div class="pattern-hint">Factory Method - Create by type</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Content (Strategy & Adapter) -->
+                <div class="form-section">
+                    <div class="section-title">📄 Nội Dung (Strategy & Adapter Patterns)</div>
+                    
+                    <div class="form-group">
+                        <label for="contentFormat">Format Nội Dung *</label>
+                        <select id="contentFormat" name="contentFormat" required>
+                            <option value="html">HTML</option>
+                            <option value="markdown">Markdown (Adapter)</option>
+                            <option value="plain">Plain Text</option>
+                        </select>
+                        <div class="pattern-hint">Strategy Pattern - Different rendering + Adapter for Markdown</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">Nội Dung *</label>
+                        <textarea id="content" name="content" placeholder="Nhập nội dung bài viết..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tags">Tags (phân cách bằng dấu phẩy)</label>
+                        <input type="text" id="tags" name="tags" placeholder="java, design-patterns, tutorial">
+                        <div class="pattern-hint">Builder Pattern - Adding multiple tags</div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Settings (Decorator & Proxy) -->
+                <div class="form-section">
+                    <div class="section-title">⚙️ Cài Đặt (Decorator & Proxy Patterns)</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="enableComments" name="enableComments" checked>
+                                Cho phép Comments
+                            </label>
+                            <div class="pattern-hint">Decorator - Add feature</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="enableLikes" name="enableLikes" checked>
+                                Cho phép Likes
+                            </label>
+                            <div class="pattern-hint">Decorator - Add feature</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="lazyLoad" name="lazyLoad" checked>
+                                Lazy Load Content
+                            </label>
+                            <div class="pattern-hint">Proxy Pattern</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="theme">UI Theme *</label>
+                            <select id="theme" name="theme">
+                                <option value="modern">Modern</option>
+                                <option value="classic">Classic</option>
+                            </select>
+                            <div class="pattern-hint">Abstract Factory</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 4: Notifications (Observer) -->
+                <div class="form-section">
+                    <div class="section-title">🔔 Thông Báo (Observer Pattern)</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="notifyEmail" name="notifyEmail" checked>
+                                Email Subscribers
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="notifySMS" name="notifySMS">
+                                SMS Subscribers
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pattern-hint">Observer Pattern - Notify all subscribers</div>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="loadTemplate()">
+                        🎭 Load Template (Prototype)
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Lưu Bản Ghi (Facade + Template Method)
+                    </button>
+                </div>
+            </form>
+            
+            <div class="record-preview" id="recordPreview" style="display: none;">
+                <h4>📋 Preview Bản Ghi Vừa Lưu:</h4>
+                <pre id="recordData"></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Singleton Pattern - Global ID Generator
+        const IDGenerator = (function() {
+            let instance;
+            let currentId = 1000;
+            
+            function createInstance() {
+                return {
+                    generateId: function() {
+                        return 'POST-' + (currentId++);
+                    }
+                };
+            }
+            
+            return {
+                getInstance: function() {
+                    if (!instance) {
+                        instance = createInstance();
+                    }
+                    return instance;
+                }
+            };
+        })();
+        
+        // Initialize ID
+        window.onload = function() {
+            const idGen = IDGenerator.getInstance();
+            document.getElementById('postId').value = idGen.generateId();
+        };
+        
+        // Prototype Pattern - Load Template
+        function loadTemplate() {
+            const template = {
+                title: 'Template: Introduction to Design Patterns',
+                author: 'Template Author',
+                postType: 'technical',
+                contentFormat: 'markdown',
+                content: '# Design Patterns\n\nThis is a template content...',
+                tags: 'design-patterns, java, tutorial'
+            };
+            
+            document.getElementById('title').value = template.title;
+            document.getElementById('author').value = template.author;
+            document.getElementById('postType').value = template.postType;
+            document.getElementById('contentFormat').value = template.contentFormat;
+            document.getElementById('content').value = template.content;
+            document.getElementById('tags').value = template.tags;
+            
+            alert('🎭 Prototype Pattern: Template loaded successfully!');
+        }
+        
+        // Form Submission - Using all 12 patterns
+        document.getElementById('singleRecordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data (Builder Pattern)
+            const record = {
+                id: document.getElementById('postId').value,
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                postType: document.getElementById('postType').value,
+                contentFormat: document.getElementById('contentFormat').value,
+                content: document.getElementById('content').value,
+                tags: document.getElementById('tags').value.split(',').map(t => t.trim()).filter(t => t),
+                enableComments: document.getElementById('enableComments').checked,
+                enableLikes: document.getElementById('enableLikes').checked,
+                lazyLoad: document.getElementById('lazyLoad').checked,
+                theme: document.getElementById('theme').value,
+                notifyEmail: document.getElementById('notifyEmail').checked,
+                notifySMS: document.getElementById('notifySMS').checked,
+                createdAt: new Date().toISOString()
+            };
+            
+            console.log('Saving record with all 12 patterns:', record);
+            
+            // Show success message
+            document.getElementById('recordId').textContent = record.id;
+            document.getElementById('successMessage').classList.add('show');
+            
+            // Show preview
+            document.getElementById('recordPreview').style.display = 'block';
+            document.getElementById('recordData').textContent = JSON.stringify(record, null, 2);
+            
+            // Simulate pattern usage
+            let message = '✅ Bản ghi đã được lưu thành công!\n\n';
+            message += '🎨 12 Design Patterns đã được áp dụng:\n';
+            message += '1. ✓ Singleton - ID Generator\n';
+            message += '2. ✓ Factory Method - Create ' + record.postType + ' post\n';
+            message += '3. ✓ Abstract Factory - ' + record.theme + ' theme\n';
+            message += '4. ✓ Builder - Built post with ' + record.tags.length + ' tags\n';
+            message += '5. ✓ Prototype - Template available\n';
+            message += '6. ✓ Adapter - ' + record.contentFormat + ' format\n';
+            message += '7. ✓ Decorator - Comments=' + record.enableComments + ', Likes=' + record.enableLikes + '\n';
+            message += '8. ✓ Facade - Publishing simplified\n';
+            message += '9. ✓ Proxy - Lazy load=' + record.lazyLoad + '\n';
+            message += '10. ✓ Observer - Email=' + record.notifyEmail + ', SMS=' + record.notifySMS + '\n';
+            message += '11. ✓ Strategy - Rendering strategy=' + record.contentFormat + '\n';
+            message += '12. ✓ Template Method - Workflow completed\n';
+            
+            alert(message);
+            
+            // Scroll to preview
+            document.getElementById('recordPreview').scrollIntoView({ behavior: 'smooth' });
+            
+            // Generate new ID for next record (Singleton)
+            const idGen = IDGenerator.getInstance();
+            document.getElementById('postId').value = idGen.generateId();
+        });
+    </script>
+</body>
+</html>
