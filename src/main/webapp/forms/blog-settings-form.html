@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Cấu Hình Blog - Sử Dụng 12 Design Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .patterns-used {
+            background: #fff5f7;
+            padding: 20px;
+            border-bottom: 2px solid #ffe0e6;
+        }
+        
+        .patterns-used h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .pattern-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .pattern-tag {
+            background: #f5576c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: #f5576c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"],
+        .checkbox-group input[type="radio"] {
+            width: auto;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .preview-box {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .preview-box h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .preview-content {
+            font-size: 13px;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        .pattern-indicator {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0066cc;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Form Cấu Hình Blog</h1>
+            <p>Configuration Management with 12 Design Patterns</p>
+        </div>
+        
+        <div class="patterns-used">
+            <h3>🎨 12 Design Patterns được sử dụng trong form này:</h3>
+            <div class="pattern-tags">
+                <span class="pattern-tag">Singleton</span>
+                <span class="pattern-tag">Factory Method</span>
+                <span class="pattern-tag">Abstract Factory</span>
+                <span class="pattern-tag">Builder</span>
+                <span class="pattern-tag">Prototype</span>
+                <span class="pattern-tag">Adapter</span>
+                <span class="pattern-tag">Decorator</span>
+                <span class="pattern-tag">Facade</span>
+                <span class="pattern-tag">Proxy</span>
+                <span class="pattern-tag">Observer</span>
+                <span class="pattern-tag">Strategy</span>
+                <span class="pattern-tag">Template Method</span>
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <form id="settingsForm">
+                
+                <!-- Section 1: Singleton Pattern - Global Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🌐 Cấu Hình Toàn Cục
+                        <span class="pattern-indicator">Singleton</span>
+                    </h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blogName">Tên Blog *</label>
+                            <input type="text" id="blogName" name="blogName" value="My Awesome Blog" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="language">Ngôn ngữ *</label>
+                            <select id="language" name="language">
+                                <option value="vi">Tiếng Việt</option>
+                                <option value="en">English</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postsPerPage">Số bài viết/trang *</label>
+                            <input type="number" id="postsPerPage" name="postsPerPage" value="10" min="5" max="50" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timezone">Múi giờ *</label>
+                            <select id="timezone" name="timezone">
+                                <option value="UTC+7">UTC+7 (Việt Nam)</option>
+                                <option value="UTC+0">UTC+0 (GMT)</option>
+                                <option value="UTC+9">UTC+9 (Japan)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Singleton Pattern đảm bảo chỉ có một instance cấu hình toàn cục cho toàn bộ hệ thống
+                    </div>
+                </div>
+                
+                <!-- Section 2: Abstract Factory - Theme Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🎨 Cấu Hình Giao Diện
+                        <span class="pattern-indicator">Abstract Factory</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="uiTheme">Theme giao diện *</label>
+                        <select id="uiTheme" name="uiTheme" onchange="previewTheme()">
+                            <option value="modern">Modern Theme</option>
+                            <option value="classic">Classic Theme</option>
+                            <option value="dark">Dark Theme</option>
+                            <option value="minimalist">Minimalist Theme</option>
+                        </select>
+                    </div>
+                    
+                    <div class="preview-box" id="themePreview">
+                        <h4>Preview Theme Components:</h4>
+                        <div class="preview-content" id="themePreviewContent">
+                            <div>Button: [Modern Button Style]</div>
+                            <div>Header: [Modern Header Style]</div>
+                            <div>Footer: [Modern Footer Style]</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Abstract Factory tạo ra các UI components (Button, Header, Footer) theo theme nhất quán
+                    </div>
+                </div>
+                
+                <!-- Section 3: Factory Method & Prototype - Default Post Templates -->
+                <div class="section">
+                    <h2 class="section-title">
+                        📝 Cấu Hình Post Mặc Định
+                        <span class="pattern-indicator">Factory + Prototype</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="defaultPostType">Loại bài viết mặc định *</label>
+                        <select id="defaultPostType" name="defaultPostType">
+                            <option value="technical">Technical</option>
+                            <option value="lifestyle">Lifestyle</option>
+                            <option value="news">News</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Template có sẵn (Prototype):</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="useTechTemplate" name="useTechTemplate" checked>
+                            <label for="useTechTemplate" style="font-weight: normal; margin: 0;">Technical Template</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="useNewsTemplate" name="useNewsTemplate" checked>
+                            <label for="useNewsTemplate" style="font-weight: normal; margin: 0;">News Template</label>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Factory Method tạo post theo type, Prototype clone từ template có sẵn
+                    </div>
+                </div>
+                
+                <!-- Section 4: Strategy & Adapter - Content Rendering -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🔄 Cấu Hình Rendering
+                        <span class="pattern-indicator">Strategy + Adapter</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label>Rendering Strategy *</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="renderHTML" name="renderStrategy" value="html" checked>
+                                <label for="renderHTML" style="font-weight: normal; margin: 0;">HTML</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="renderJSON" name="renderStrategy" value="json">
+                                <label for="renderJSON" style="font-weight: normal; margin: 0;">JSON</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="renderPlain" name="renderStrategy" value="plain">
+                                <label for="renderPlain" style="font-weight: normal; margin: 0;">Plain Text</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Content Format Support (Adapter):</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="supportMarkdown" name="supportMarkdown" checked>
+                            <label for="supportMarkdown" style="font-weight: normal; margin: 0;">Markdown (via Adapter)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="supportHTML" name="supportHTML" checked>
+                            <label for="supportHTML" style="font-weight: normal; margin: 0;">Direct HTML</label>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Strategy cho phép chọn cách render, Adapter chuyển đổi Markdown sang HTML
+                    </div>
+                </div>
+                
+                <!-- Section 5: Decorator - Feature Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        ✨ Tính Năng Bổ Sung
+                        <span class="pattern-indicator">Decorator</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label>Tính năng cho bài viết:</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enableCommentsGlobal" name="enableCommentsGlobal" checked>
+                            <label for="enableCommentsGlobal" style="font-weight: normal; margin: 0;">Comments mặc định</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enableLikesGlobal" name="enableLikesGlobal" checked>
+                            <label for="enableLikesGlobal" style="font-weight: normal; margin: 0;">Likes mặc định</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enableShare" name="enableShare" checked>
+                            <label for="enableShare" style="font-weight: normal; margin: 0;">Share buttons</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enableReactions" name="enableReactions">
+                            <label for="enableReactions" style="font-weight: normal; margin: 0;">Reactions (❤️😂👍)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Decorator Pattern cho phép thêm/bớt tính năng động mà không sửa code gốc
+                    </div>
+                </div>
+                
+                <!-- Section 6: Proxy - Performance Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        ⚡ Cấu Hình Performance
+                        <span class="pattern-indicator">Proxy</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label>Lazy Loading:</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lazyLoadContent" name="lazyLoadContent" checked>
+                            <label for="lazyLoadContent" style="font-weight: normal; margin: 0;">Lazy load nội dung bài viết</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lazyLoadImages" name="lazyLoadImages" checked>
+                            <label for="lazyLoadImages" style="font-weight: normal; margin: 0;">Lazy load hình ảnh</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lazyLoadComments" name="lazyLoadComments">
+                            <label for="lazyLoadComments" style="font-weight: normal; margin: 0;">Lazy load comments</label>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Proxy Pattern thực hiện lazy loading để tối ưu hiệu suất
+                    </div>
+                </div>
+                
+                <!-- Section 7: Observer - Notification Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🔔 Cấu Hình Thông Báo
+                        <span class="pattern-indicator">Observer</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label>Kênh thông báo khi có bài viết mới:</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyEmailSub" name="notifyEmailSub" checked>
+                            <label for="notifyEmailSub" style="font-weight: normal; margin: 0;">Email Subscribers</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifySMSSub" name="notifySMSSub">
+                            <label for="notifySMSSub" style="font-weight: normal; margin: 0;">SMS Subscribers</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyPush" name="notifyPush" checked>
+                            <label for="notifyPush" style="font-weight: normal; margin: 0;">Push Notifications</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyRSS" name="notifyRSS" checked>
+                            <label for="notifyRSS" style="font-weight: normal; margin: 0;">RSS Feed Update</label>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Observer Pattern notify tất cả subscribers khi có event (bài viết mới)
+                    </div>
+                </div>
+                
+                <!-- Section 8: Facade & Template Method - Publishing Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🚀 Cấu Hình Publishing
+                        <span class="pattern-indicator">Facade + Template Method</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label>Publishing Workflow (Template Method):</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoValidate" name="autoValidate" checked disabled>
+                            <label for="autoValidate" style="font-weight: normal; margin: 0;">1. Auto Validate (bắt buộc)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoFormat" name="autoFormat" checked>
+                            <label for="autoFormat" style="font-weight: normal; margin: 0;">2. Auto Format Content</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoSave" name="autoSave" checked disabled>
+                            <label for="autoSave" style="font-weight: normal; margin: 0;">3. Auto Save (bắt buộc)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoIndex" name="autoIndex" checked>
+                            <label for="autoIndex" style="font-weight: normal; margin: 0;">4. Auto Index for Search</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="autoNotify" name="autoNotify" checked>
+                            <label for="autoNotify" style="font-weight: normal; margin: 0;">5. Auto Notify Subscribers</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="publishMode">Publishing Mode (Facade):</label>
+                        <select id="publishMode" name="publishMode">
+                            <option value="immediate">Immediate (Ngay lập tức)</option>
+                            <option value="scheduled">Scheduled (Lên lịch)</option>
+                            <option value="draft">Save as Draft</option>
+                        </select>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Template Method định nghĩa workflow, Facade đơn giản hóa quá trình phức tạp
+                    </div>
+                </div>
+                
+                <!-- Section 9: Builder - Advanced Configuration -->
+                <div class="section">
+                    <h2 class="section-title">
+                        🔧 Cấu Hình Nâng Cao
+                        <span class="pattern-indicator">Builder</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="seoTitle">SEO Title Template</label>
+                        <input type="text" id="seoTitle" name="seoTitle" value="{title} - {blogName}" placeholder="Sử dụng {title}, {author}, {blogName}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="permalinkFormat">Permalink Format</label>
+                        <input type="text" id="permalinkFormat" name="permalinkFormat" value="/{year}/{month}/{slug}" placeholder="/{year}/{month}/{day}/{slug}">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cacheExpiry">Cache Expiry (minutes)</label>
+                            <input type="number" id="cacheExpiry" name="cacheExpiry" value="60" min="5" max="1440">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="maxImageSize">Max Image Size (MB)</label>
+                            <input type="number" id="maxImageSize" name="maxImageSize" value="5" min="1" max="20">
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        💡 Builder Pattern xây dựng configuration object phức tạp từng bước
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">💾 Lưu Cấu Hình (All Patterns)</button>
+                    <button type="button" class="btn btn-success" onclick="loadDefaults()">🔄 Load Defaults (Prototype)</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">↺ Reset</button>
+                </div>
+            </form>
+            
+            <div class="preview-box" style="margin-top: 30px; background: #e7f3ff; border-color: #667eea;">
+                <h4 style="color: #667eea;">💡 Tổng Quan Các Design Patterns Trong Form:</h4>
+                <div class="preview-content" style="color: #495057;">
+                    <ol style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Singleton:</strong> Quản lý cấu hình toàn cục (blogName, language, etc.)</li>
+                        <li><strong>Factory Method:</strong> Tạo default post type</li>
+                        <li><strong>Abstract Factory:</strong> Tạo UI theme components</li>
+                        <li><strong>Builder:</strong> Xây dựng configuration object phức tạp</li>
+                        <li><strong>Prototype:</strong> Clone từ default settings</li>
+                        <li><strong>Adapter:</strong> Support Markdown format</li>
+                        <li><strong>Decorator:</strong> Thêm features (comments, likes, share, reactions)</li>
+                        <li><strong>Facade:</strong> Đơn giản hóa publishing workflow</li>
+                        <li><strong>Proxy:</strong> Lazy loading configuration</li>
+                        <li><strong>Observer:</strong> Notification channels configuration</li>
+                        <li><strong>Strategy:</strong> Rendering strategy selection</li>
+                        <li><strong>Template Method:</strong> Publishing workflow steps</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function previewTheme() {
+            const theme = document.getElementById('uiTheme').value;
+            const previewContent = document.getElementById('themePreviewContent');
+            
+            const themes = {
+                modern: {
+                    button: 'Flat design with gradient',
+                    header: 'Minimalist header with search bar',
+                    footer: 'Social media links'
+                },
+                classic: {
+                    button: 'Traditional button with border',
+                    header: 'Traditional header with navigation',
+                    footer: 'Copyright and contact info'
+                },
+                dark: {
+                    button: 'Dark themed button',
+                    header: 'Dark mode header',
+                    footer: 'Dark mode footer'
+                },
+                minimalist: {
+                    button: 'Minimal button style',
+                    header: 'Clean minimal header',
+                    footer: 'Simple footer'
+                }
+            };
+            
+            const selected = themes[theme];
+            previewContent.innerHTML = `
+                <div>Button: [${selected.button}]</div>
+                <div>Header: [${selected.header}]</div>
+                <div>Footer: [${selected.footer}]</div>
+            `;
+        }
+        
+        function loadDefaults() {
+            if (confirm('🎭 Prototype Pattern: Load default configuration template?')) {
+                // Reset to default values (Prototype Pattern)
+                document.getElementById('blogName').value = 'My Awesome Blog';
+                document.getElementById('language').value = 'vi';
+                document.getElementById('postsPerPage').value = '10';
+                document.getElementById('uiTheme').value = 'modern';
+                previewTheme();
+                alert('✅ Default configuration loaded from prototype!');
+            }
+        }
+        
+        function resetForm() {
+            if (confirm('Bạn có chắc muốn reset form?')) {
+                document.getElementById('settingsForm').reset();
+                previewTheme();
+            }
+        }
+        
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect all configuration data
+            const config = {
+                // Singleton - Global Config
+                singleton: {
+                    blogName: document.getElementById('blogName').value,
+                    language: document.getElementById('language').value,
+                    postsPerPage: document.getElementById('postsPerPage').value,
+                    timezone: document.getElementById('timezone').value
+                },
+                
+                // Abstract Factory - UI Theme
+                abstractFactory: {
+                    theme: document.getElementById('uiTheme').value
+                },
+                
+                // Factory Method & Prototype
+                factoryPrototype: {
+                    defaultPostType: document.getElementById('defaultPostType').value,
+                    templates: {
+                        technical: document.getElementById('useTechTemplate').checked,
+                        news: document.getElementById('useNewsTemplate').checked
+                    }
+                },
+                
+                // Strategy & Adapter
+                strategyAdapter: {
+                    renderStrategy: document.querySelector('input[name="renderStrategy"]:checked').value,
+                    supportMarkdown: document.getElementById('supportMarkdown').checked,
+                    supportHTML: document.getElementById('supportHTML').checked
+                },
+                
+                // Decorator
+                decorator: {
+                    enableComments: document.getElementById('enableCommentsGlobal').checked,
+                    enableLikes: document.getElementById('enableLikesGlobal').checked,
+                    enableShare: document.getElementById('enableShare').checked,
+                    enableReactions: document.getElementById('enableReactions').checked
+                },
+                
+                // Proxy
+                proxy: {
+                    lazyLoadContent: document.getElementById('lazyLoadContent').checked,
+                    lazyLoadImages: document.getElementById('lazyLoadImages').checked,
+                    lazyLoadComments: document.getElementById('lazyLoadComments').checked
+                },
+                
+                // Observer
+                observer: {
+                    notifyEmail: document.getElementById('notifyEmailSub').checked,
+                    notifySMS: document.getElementById('notifySMSSub').checked,
+                    notifyPush: document.getElementById('notifyPush').checked,
+                    notifyRSS: document.getElementById('notifyRSS').checked
+                },
+                
+                // Facade & Template Method
+                facadeTemplate: {
+                    autoFormat: document.getElementById('autoFormat').checked,
+                    autoIndex: document.getElementById('autoIndex').checked,
+                    autoNotify: document.getElementById('autoNotify').checked,
+                    publishMode: document.getElementById('publishMode').value
+                },
+                
+                // Builder
+                builder: {
+                    seoTitle: document.getElementById('seoTitle').value,
+                    permalinkFormat: document.getElementById('permalinkFormat').value,
+                    cacheExpiry: document.getElementById('cacheExpiry').value,
+                    maxImageSize: document.getElementById('maxImageSize').value
+                }
+            };
+            
+            console.log('Configuration Object:', config);
+            
+            // Show success message
+            let message = '✅ Cấu hình đã được lưu thành công!\n\n';
+            message += '🎨 12 Design Patterns đã được áp dụng:\n\n';
+            message += '1. ✓ Singleton: Config toàn cục = ' + config.singleton.blogName + '\n';
+            message += '2. ✓ Factory Method: Default type = ' + config.factoryPrototype.defaultPostType + '\n';
+            message += '3. ✓ Abstract Factory: Theme = ' + config.abstractFactory.theme + '\n';
+            message += '4. ✓ Builder: Complex config built successfully\n';
+            message += '5. ✓ Prototype: Templates ready for cloning\n';
+            message += '6. ✓ Adapter: Markdown support = ' + config.strategyAdapter.supportMarkdown + '\n';
+            message += '7. ✓ Decorator: Features configured (comments, likes, etc.)\n';
+            message += '8. ✓ Facade: Publish mode = ' + config.facadeTemplate.publishMode + '\n';
+            message += '9. ✓ Proxy: Lazy loading enabled = ' + config.proxy.lazyLoadContent + '\n';
+            message += '10. ✓ Observer: ' + Object.values(config.observer).filter(v => v).length + ' notification channels\n';
+            message += '11. ✓ Strategy: Render = ' + config.strategyAdapter.renderStrategy + '\n';
+            message += '12. ✓ Template Method: Publishing workflow configured\n';
+            
+            alert(message);
+        });
+        
+        // Initialize theme preview
+        previewTheme();
+    </script>
+</body>
+</html>

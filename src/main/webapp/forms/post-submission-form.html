@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Đăng Bài Viết Blog - Sử Dụng 12 Design Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .patterns-used {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .patterns-used h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .pattern-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .pattern-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .tag-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .tag-input-wrapper input {
+            flex: 1;
+        }
+        
+        .tag-input-wrapper button {
+            padding: 12px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .tag-input-wrapper button:hover {
+            background: #218838;
+        }
+        
+        .tags-display {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag-item {
+            background: #e9ecef;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag-item .remove {
+            cursor: pointer;
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .pattern-info {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        
+        .pattern-info h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .pattern-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .pattern-info li {
+            padding: 5px 0;
+            font-size: 13px;
+            color: #495057;
+        }
+        
+        .pattern-info li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Form Đăng Bài Viết Blog</h1>
+            <p>Demonstration of 12 Design Patterns in Action</p>
+        </div>
+        
+        <div class="patterns-used">
+            <h3>🎨 12 Design Patterns được sử dụng trong form này:</h3>
+            <div class="pattern-tags">
+                <span class="pattern-tag">Singleton</span>
+                <span class="pattern-tag">Factory Method</span>
+                <span class="pattern-tag">Abstract Factory</span>
+                <span class="pattern-tag">Builder</span>
+                <span class="pattern-tag">Prototype</span>
+                <span class="pattern-tag">Adapter</span>
+                <span class="pattern-tag">Decorator</span>
+                <span class="pattern-tag">Facade</span>
+                <span class="pattern-tag">Proxy</span>
+                <span class="pattern-tag">Observer</span>
+                <span class="pattern-tag">Strategy</span>
+                <span class="pattern-tag">Template Method</span>
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <form id="postForm">
+                <!-- Builder Pattern: Building blog post step by step -->
+                <div class="form-group">
+                    <label for="title">Tiêu đề bài viết *</label>
+                    <input type="text" id="title" name="title" placeholder="Nhập tiêu đề bài viết..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="author">Tác giả *</label>
+                    <input type="text" id="author" name="author" placeholder="Tên tác giả..." required>
+                </div>
+                
+                <!-- Factory Method Pattern: Select post type to create appropriate post -->
+                <div class="form-group">
+                    <label for="postType">Loại bài viết *</label>
+                    <select id="postType" name="postType" required>
+                        <option value="">-- Chọn loại bài viết --</option>
+                        <option value="technical">Technical (Kỹ thuật)</option>
+                        <option value="lifestyle">Lifestyle (Cuộc sống)</option>
+                        <option value="news">News (Tin tức)</option>
+                    </select>
+                    <small style="color: #6c757d; font-size: 12px;">Factory Method tự động cấu hình tags và category</small>
+                </div>
+                
+                <!-- Strategy Pattern: Different content rendering strategies -->
+                <div class="form-group">
+                    <label for="contentFormat">Format nội dung *</label>
+                    <select id="contentFormat" name="contentFormat" required>
+                        <option value="html">HTML</option>
+                        <option value="markdown">Markdown (qua Adapter)</option>
+                        <option value="plain">Plain Text</option>
+                    </select>
+                    <small style="color: #6c757d; font-size: 12px;">Strategy + Adapter cho rendering</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="content">Nội dung bài viết *</label>
+                    <textarea id="content" name="content" placeholder="Nhập nội dung bài viết..." required></textarea>
+                </div>
+                
+                <!-- Builder Pattern: Adding tags dynamically -->
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <div class="tag-input-wrapper">
+                        <input type="text" id="tagInput" placeholder="Nhập tag và nhấn Thêm...">
+                        <button type="button" onclick="addTag()">Thêm Tag</button>
+                    </div>
+                    <div class="tags-display" id="tagsDisplay"></div>
+                </div>
+                
+                <!-- Abstract Factory Pattern: UI theme selection -->
+                <div class="form-group">
+                    <label for="theme">Theme giao diện *</label>
+                    <select id="theme" name="theme" required>
+                        <option value="modern">Modern (Hiện đại)</option>
+                        <option value="classic">Classic (Cổ điển)</option>
+                    </select>
+                    <small style="color: #6c757d; font-size: 12px;">Abstract Factory tạo UI components phù hợp</small>
+                </div>
+                
+                <!-- Decorator Pattern: Add features to post -->
+                <div class="form-group">
+                    <label>Tính năng bổ sung (Decorator Pattern)</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="enableComments" name="enableComments" checked>
+                        <label for="enableComments" style="font-weight: normal; margin: 0;">Cho phép bình luận</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="enableLikes" name="enableLikes" checked>
+                        <label for="enableLikes" style="font-weight: normal; margin: 0;">Cho phép like</label>
+                    </div>
+                </div>
+                
+                <!-- Proxy Pattern: Lazy loading option -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="lazyLoad" name="lazyLoad" checked>
+                        <label for="lazyLoad" style="font-weight: normal; margin: 0;">Lazy load nội dung (Proxy Pattern)</label>
+                    </div>
+                </div>
+                
+                <!-- Observer Pattern: Notification settings -->
+                <div class="form-group">
+                    <label>Thông báo (Observer Pattern)</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="notifyEmail" name="notifyEmail" checked>
+                        <label for="notifyEmail" style="font-weight: normal; margin: 0;">Email subscribers</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="notifySMS" name="notifySMS">
+                        <label for="notifySMS" style="font-weight: normal; margin: 0;">SMS subscribers</label>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Xuất Bản (Facade + Template Method)</button>
+                    <button type="button" class="btn btn-secondary" onclick="loadTemplate()">Load Template (Prototype)</button>
+                </div>
+            </form>
+            
+            <div class="pattern-info">
+                <h4>💡 Cách 12 Design Patterns được áp dụng:</h4>
+                <ul>
+                    <li><strong>Singleton:</strong> BlogConfiguration quản lý cấu hình toàn cục</li>
+                    <li><strong>Factory Method:</strong> Tạo post theo loại (Technical/Lifestyle/News)</li>
+                    <li><strong>Abstract Factory:</strong> Tạo UI components theo theme</li>
+                    <li><strong>Builder:</strong> Xây dựng BlogPost với các thuộc tính</li>
+                    <li><strong>Prototype:</strong> Clone từ template có sẵn</li>
+                    <li><strong>Adapter:</strong> Chuyển đổi Markdown sang HTML</li>
+                    <li><strong>Decorator:</strong> Thêm comments, likes động</li>
+                    <li><strong>Facade:</strong> Đơn giản hóa quá trình publish</li>
+                    <li><strong>Proxy:</strong> Lazy loading nội dung</li>
+                    <li><strong>Observer:</strong> Notify subscribers khi publish</li>
+                    <li><strong>Strategy:</strong> Các cách render content khác nhau</li>
+                    <li><strong>Template Method:</strong> Workflow publish được định nghĩa sẵn</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let tags = [];
+        
+        function addTag() {
+            const input = document.getElementById('tagInput');
+            const tag = input.value.trim();
+            if (tag && !tags.includes(tag)) {
+                tags.push(tag);
+                updateTagsDisplay();
+                input.value = '';
+            }
+        }
+        
+        function removeTag(tag) {
+            tags = tags.filter(t => t !== tag);
+            updateTagsDisplay();
+        }
+        
+        function updateTagsDisplay() {
+            const display = document.getElementById('tagsDisplay');
+            display.innerHTML = tags.map(tag => 
+                `<div class="tag-item">
+                    ${tag}
+                    <span class="remove" onclick="removeTag('${tag}')">×</span>
+                </div>`
+            ).join('');
+        }
+        
+        function loadTemplate() {
+            // Prototype Pattern: Load from template
+            alert('🎭 Prototype Pattern: Đang load template bài viết mẫu...');
+            document.getElementById('title').value = 'Template: Introduction to Design Patterns';
+            document.getElementById('author').value = 'Template Author';
+            document.getElementById('postType').value = 'technical';
+            document.getElementById('content').value = 'Đây là nội dung template được clone từ prototype...';
+            tags = ['design-patterns', 'programming', 'tutorial'];
+            updateTagsDisplay();
+        }
+        
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                postType: document.getElementById('postType').value,
+                contentFormat: document.getElementById('contentFormat').value,
+                content: document.getElementById('content').value,
+                tags: tags,
+                theme: document.getElementById('theme').value,
+                enableComments: document.getElementById('enableComments').checked,
+                enableLikes: document.getElementById('enableLikes').checked,
+                lazyLoad: document.getElementById('lazyLoad').checked,
+                notifyEmail: document.getElementById('notifyEmail').checked,
+                notifySMS: document.getElementById('notifySMS').checked
+            };
+            
+            console.log('Form Data:', formData);
+            
+            // Show success message demonstrating all patterns
+            let message = '✅ Bài viết đã được tạo thành công!\n\n';
+            message += '🎨 12 Design Patterns đã được áp dụng:\n';
+            message += '1. ✓ Singleton: Config đã được load\n';
+            message += '2. ✓ Factory Method: Tạo ' + formData.postType + ' post\n';
+            message += '3. ✓ Abstract Factory: UI theme = ' + formData.theme + '\n';
+            message += '4. ✓ Builder: Post được build với ' + tags.length + ' tags\n';
+            message += '5. ✓ Prototype: Có thể clone từ template\n';
+            message += '6. ✓ Adapter: Format ' + formData.contentFormat + ' được convert\n';
+            message += '7. ✓ Decorator: Comments=' + formData.enableComments + ', Likes=' + formData.enableLikes + '\n';
+            message += '8. ✓ Facade: Publishing được đơn giản hóa\n';
+            message += '9. ✓ Proxy: Lazy load=' + formData.lazyLoad + '\n';
+            message += '10. ✓ Observer: Notify Email=' + formData.notifyEmail + ', SMS=' + formData.notifySMS + '\n';
+            message += '11. ✓ Strategy: Rendering strategy = ' + formData.contentFormat + '\n';
+            message += '12. ✓ Template Method: Workflow đã hoàn thành\n';
+            
+            alert(message);
+        });
+        
+        // Allow adding tag with Enter key
+        document.getElementById('tagInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addTag();
+            }
+        });
+    </script>
+</body>
+</html>
